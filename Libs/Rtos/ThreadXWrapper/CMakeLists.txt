@@ -192,4 +192,4 @@ target_link_libraries(ThreadX PUBLIC stm32cubemx)
 
 add_library(ThreadXWrapper INTERFACE)
 target_link_libraries(ThreadXWrapper INTERFACE stm32cubemx ThreadX)
-target_include_directories(ThreadXWrapper INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ThreadXWrapper INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} ${ThreadX_App_Custom})
