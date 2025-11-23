@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.22)
 
+# Setup compiler settings
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS ON)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
 set(FreeRtos_App_Custom 
+    ${CMAKE_SOURCE_DIR}/Libs/Rtos/FreeRtosWrapper/FreeRtosConfig
     ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/include
     ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/CMSIS_RTOS_V2
     ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/portable/GCC/ARM_CM4F
@@ -29,6 +35,6 @@ target_sources(FreeRTOS PRIVATE ${FreeRTOS_Src})
 target_include_directories(FreeRTOS PUBLIC ${FreeRtos_App_Custom})
 target_link_libraries(FreeRTOS PUBLIC stm32cubemx)
 
-add_library(FreeRtosWrapper INTERFACE)
+add_library(FreeRtosWrapper INTERFACE FreeRtosMutex.hpp FreeRtosThread.hpp FreeRtosSemaphore.hpp FreeRtosQueue.hpp)
 target_link_libraries(FreeRtosWrapper INTERFACE stm32cubemx FreeRTOS)
-target_include_directories(FreeRtosWrapper INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(FreeRtosWrapper INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} ${FreeRtos_App_Custom})

@@ -1,8 +1,8 @@
 // rtos/freertos/Mutex.hpp
 #pragma once
-#include "../RtosAbstract/Mutex.hpp"
+#include "../RtosAbstract.hpp"
 #include "FreeRTOS.h"
-#include "semphr.h"
+#include <semphr.h>
 
 namespace Rtos::FreeRTOS {
 

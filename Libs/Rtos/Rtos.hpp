@@ -3,7 +3,7 @@
 #include "RtosConfig.hpp"
 
 #if defined(USE_FREERTOS)
-  #include "../FreeRtosWrapper/FreeRtosMutex.hpp"
+  #include "FreeRtosWrapper/FreeRtosMutex.hpp"
   #include "FreeRtosWrapper/FreeRtosSemaphore.hpp"
   #include "FreeRtosWrapper/FreeRtosThread.hpp"
   #include "FreeRtosWrapper/FreeRtosQueue.hpp"
