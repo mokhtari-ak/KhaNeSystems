@@ -16,6 +16,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
+# For clangd indexing
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
@@ -30,8 +33,8 @@ include("cmake/gcc-arm-none-eabi.cmake")
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-set(RTOS "FREERTOS" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX")
-#set(RTOS "THREADX" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX") 
+#set(RTOS "FREERTOS" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX")
+set(RTOS "THREADX" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX") 
 message("Rtos : " ${RTOS})
 
 # Core project settings

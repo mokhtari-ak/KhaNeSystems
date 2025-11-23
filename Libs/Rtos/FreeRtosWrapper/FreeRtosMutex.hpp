@@ -1,10 +1,10 @@
 // rtos/freertos/Mutex.hpp
 #pragma once
-#include "../RtosAbstract.hpp"
+#include "../RtosAbstract/Mutex.hpp" // Inclure l'interface IMutex
 #include "FreeRTOS.h"
 #include <semphr.h>
 
-namespace Rtos::FreeRTOS {
+namespace Rtos::FreeRtosWrapper {
 
 class Mutex : public Rtos::Abstract::IMutex {
     SemaphoreHandle_t handle_;
@@ -19,4 +19,4 @@ public:
     void unlock() noexcept override { xSemaphoreGive(handle_); }
 };
 
-} // namespace Rtos::FreeRTOS
+} // namespace Rtos::FreeRtosWrapper

@@ -35,6 +35,12 @@ target_sources(FreeRTOS PRIVATE ${FreeRTOS_Src})
 target_include_directories(FreeRTOS PUBLIC ${FreeRtos_App_Custom})
 target_link_libraries(FreeRTOS PUBLIC stm32cubemx)
 
-add_library(FreeRtosWrapper INTERFACE FreeRtosMutex.hpp FreeRtosThread.hpp FreeRtosSemaphore.hpp FreeRtosQueue.hpp)
+add_library(FreeRtosWrapper INTERFACE FreeRtosMutex.hpp FreeRtosThread.hpp FreeRtosSemaphore.hpp FreeRtosQueue.hpp FreeRTOSThread.hpp)
 target_link_libraries(FreeRtosWrapper INTERFACE stm32cubemx FreeRTOS)
-target_include_directories(FreeRtosWrapper INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} ${FreeRtos_App_Custom})
+target_include_directories(FreeRtosWrapper
+    INTERFACE
+        ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/include
+        ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/portable/GCC/ARM_CM4F
+        ${CMAKE_SOURCE_DIR}/Middlewares/ST/FreeRTOS/Source/CMSIS_RTOS
+        ${CMAKE_SOURCE_DIR}/../RtosAbstract
+)
