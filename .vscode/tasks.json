@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: configurer",
+			"command": "configure",
+			"preset": "Debug",
+			"problemMatcher": [],
+			"detail": "Tâche configurer de modèle CMake",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "cmake",
+			"label": "CMake: workflow",
+			"command": "workflow",
+			"preset": "__defaultWorkflowPreset__",
+			"problemMatcher": [],
+			"detail": "Tâche workflow de modèle CMake"
+		}
+	]
+}
