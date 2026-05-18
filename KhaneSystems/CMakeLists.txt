@@ -1,18 +1,9 @@
-# --- KHANESYSTEMS LOGIC ---
-add_library(KhaneSystemsLogic STATIC)
-
-target_include_directories(KhaneSystemsLogic PUBLIC 
-    Inc
-    Autopilot/Inc
-    FlightController/Inc
-    Propulsion/Inc
-    SensorFusion/Inc
-    ${CMAKE_SOURCE_DIR}/Libs
+add_library(khane_app INTERFACE)
+target_link_libraries(khane_app INTERFACE 
+    supervisor 
+    sensor_fusion 
+    flight_controller 
+    propulsion 
+    navigation 
+    power_monitor
 )
-
-target_sources(KhaneSystemsLogic PRIVATE
-    Autopilot/Src/StateMachine.cpp
-    # SensorFusion/Src/SensorFusion.cpp # À venir
-)
-
-target_link_libraries(KhaneSystemsLogic PUBLIC RtosAbstract)

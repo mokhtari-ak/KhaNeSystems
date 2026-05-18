@@ -1,127 +1,54 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.20)
+project(KhaNeSystems LANGUAGES C CXX ASM)
 
-#
-# This file is generated only once,
-# and is not re-generated if converter is called multiple times.
-#
-# User is free to modify the file as much as necessary
-#
-
-# Setup compiler settings
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS ON)
-
+# --- Configuration C++20 ---
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON) 
-set(CMAKE_CXX_EXTENSIONS ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# For clangd indexing
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# Define the build type
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug")
+# --- Options Déterministes & Sécurité (Embedded Critical) ---
+if(NOT HOST_BUILD)
+    add_compile_options(
+        -fno-exceptions
+        -fno-rtti
+        -fno-threadsafe-statics
+        -ffunction-sections
+        -fdata-sections
+        -Wall
+        -Wextra
+        -Werror
+        -Wpedantic
+    )
+    add_link_options(-Wl,--gc-sections)
 endif()
 
-# Set the project name
-set(CMAKE_PROJECT_NAME KhaNeSystems)
+# --- Inclusion de la HAL (STM32CubeMX) ---
+include(cmake/stm32cubemx/CMakeLists.txt)
 
-# Include toolchain file
-include("cmake/gcc-arm-none-eabi.cmake")
-include("cmake/embedded-cpp-policy.cmake")
+# --- Dossiers de la bibliothèque (Libs) ---
+add_subdirectory(Libs/common)
+add_subdirectory(Libs/rtos_abstract)
+add_subdirectory(Libs/internal_communication)
 
-# Enable compile command to ease indexing with e.g. clangd
-set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+# --- Logique Applicative (KhaneSystems) ---
+add_subdirectory(KhaneSystems/supervisor)
+add_subdirectory(KhaneSystems/sensor_fusion)
+add_subdirectory(KhaneSystems/flight_controller)
+add_subdirectory(KhaneSystems/propulsion)
+add_subdirectory(KhaneSystems/navigation)
+add_subdirectory(KhaneSystems/power_monitor)
 
-#set(RTOS "FREERTOS" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX")
-set(RTOS "THREADX" CACHE STRING "Select the RTOS to use: FREERTOS or THREADX") 
-message("Rtos : " ${RTOS})
-
-# Core project settings
-project(${CMAKE_PROJECT_NAME})
-
-message("Build type: " ${CMAKE_BUILD_TYPE})
-
-# Enable CMake support for ASM and C languages
-enable_language(C CXX ASM)
-
-
-# Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
-
-# Add STM32CubeMX generated sources
-add_subdirectory(cmake/stm32cubemx)
-add_subdirectory(Libs/STM32Wrapper/HardwareAccessLayer)
-add_subdirectory(Libs/Wrappers/WrapperTypes)
-add_subdirectory(Libs/Wrappers/WrapperPolicies)
-add_subdirectory(Libs/Wrappers)
-add_subdirectory(Libs/Drivers)
-add_subdirectory(Libs/Rtos)
-add_subdirectory(Libs/Rtos/RtosAbstract)
-if(RTOS STREQUAL "THREADX")
-    add_subdirectory(Libs/Rtos/ThreadXWrapper)
-elseif(RTOS STREQUAL "FREERTOS")
-    add_subdirectory(Libs/Rtos/FreeRtosWrapper)
-else()
-    message(FATAL_ERROR "Rtos inconnu sélectionné.")
-endif()
-add_subdirectory(Libs/InternalCommunication)
-add_subdirectory(Libs/InternalCommPolicies)
-add_subdirectory(Libs/STM32Wrapper/InternalCommLayer)
-add_subdirectory(Modules/Eigen)
-add_subdirectory(Modules/KalmanFilterLibrary)
-# Link directories setup
-target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined library search paths
-)
-
-# Add sources to executable
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
-)
-
-# Add include paths
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined include paths
-    ${CMAKE_SOURCE_DIR}/Modules/TinyEKF
-)
-
-# Add project symbols (macros)
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
-)
-
-# Add linked libraries
-target_link_libraries(${CMAKE_PROJECT_NAME}
-    stm32cubemx
-    WrapperTypes
-    HardwareAccessLayer
-    WrapperPolicies
-    Wrappers
-    Drivers
-    RtosAbstract
-    Rtos 
-    InternalCommPolicies
-    InternalCommLayer
-    InternalCommunication
-    Eigen3::Eigen
-    # Add user defined libraries
-)
-
-# Apply embedded C++ subset policy to firmware target.
-khane_apply_embedded_cpp_policy(${CMAKE_PROJECT_NAME})
-
-if(RTOS STREQUAL "THREADX")
-    target_link_libraries(${CMAKE_PROJECT_NAME} ThreadXWrapper)
-elseif(RTOS STREQUAL "FREERTOS")
-    target_link_libraries(${CMAKE_PROJECT_NAME} FreeRtosWrapper)
+# --- Tests ---
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(Tests/unit)
 endif()
 
-#if(RTOS STREQUAL "THREADX")
-    #target_link_libraries(${CMAKE_PROJECT_NAME} Rtos ThreadXWrapper)
-#elseif(RTOS STREQUAL "FREERTOS")
-    #target_link_libraries(${CMAKE_PROJECT_NAME} Rtos FreeRtosWrapper)
-#else()
-    #message(FATAL_ERROR "Rtos inconnu sélectionné.")
-#endif()
+# --- Cible Principale ---
+add_executable(${PROJECT_NAME} Core/Src/main.c) # Stub minimal
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE 
+        stm32cubemx
+        khane_libs
+        khane_app
+)

@@ -38,3 +38,12 @@ target_include_directories(khane_ekf_fusion_template_scenario PRIVATE
 )
 target_link_libraries(khane_ekf_fusion_template_scenario PRIVATE khane_hooks)
 khane_apply_host_test_cpp_policy(khane_ekf_fusion_template_scenario)
+
+# --- UNIT TESTS ---
+add_executable(test_ouroboros_buffer
+    Unit/InternalCommunication/TestOuroborosBuffer.cpp
+)
+target_include_directories(test_ouroboros_buffer PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Libs
+)
+khane_apply_host_test_cpp_policy(test_ouroboros_buffer)

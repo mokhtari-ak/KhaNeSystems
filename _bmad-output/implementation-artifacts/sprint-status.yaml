@@ -1,0 +1,75 @@
+﻿# generated: 2026-05-18
+# last_updated: 2026-05-18
+# project: KhaNeSystems
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: {project-root}/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-05-18
+last_updated: 2026-05-18
+project: KhaNeSystems
+project_key: NOKEY
+tracking_system: file-system
+story_location: {project-root}/_bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: in-progress
+  1-0-initialisation-et-structure-du-projet: review
+  1-1-bus-devenements-interne-event-bus-type-et-deterministe: in-progress
+  1-2-logging-non-bloquant-avec-buffer-circulaire-ouroboros: backlog
+  1-3-gestion-des-priorites-et-ecrasement-rate-limiting-overwrite: backlog
+  1-4-stockage-securise-sur-secteurs-bruts-raw-sector-storage: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-superviseur-de-sante-heartbeat-monitor: backlog
+  2-2-gestionnaire-de-failsafe-multiniveaux: backlog
+  2-3-delestage-de-charge-cpu-throttling: backlog
+  2-4-sequence-de-demarrage-boot-securisee: backlog
+  epic-2-retrospective: optional
+  epic-3: backlog
+  3-1-surveillance-de-la-batterie-battery-monitor: backlog
+  3-2-verrouillage-logiciel-de-la-propulsion-safety-lock: backlog
+  3-3-compensation-de-chute-de-tension-voltage-sag-protection: backlog
+  epic-3-retrospective: optional
+  epic-4: backlog
+  4-1-interface-sensor-fusion-encapsulation-ekf: backlog
+  4-2-barriere-anti-nan-validation-simd: backlog
+  4-3-validation-des-capteurs-sanity-checks: backlog
+  4-4-ekf-adaptatif-selon-la-charge-cpu: backlog
+  epic-4-retrospective: optional
+  epic-5: backlog
+  5-1-gestionnaire-de-parametres-centralise-parameter-server: backlog
+  5-2-controleur-de-vol-commutable-quadcopter-vs-fixed-wing: backlog
+  5-3-executeur-de-mission-par-waypoints: backlog
+  epic-5-retrospective: optional
+
+
