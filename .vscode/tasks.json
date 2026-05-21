@@ -5,7 +5,7 @@
 			"type": "cmake",
 			"label": "CMake: configurer",
 			"command": "configure",
-			"preset": "Debug",
+			"preset": "stm32-debug",
 			"problemMatcher": [],
 			"detail": "Tâche configurer de modèle CMake",
 			"group": {
